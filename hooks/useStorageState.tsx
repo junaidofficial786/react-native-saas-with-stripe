@@ -14,10 +14,11 @@ const storage = {
             return null;
         }
     },
+
     set: async (key: string, value: string | null): Promise<void> => {
         try {
             if (Platform.OS === 'web') {
-                value == null
+                value === null
                     ? localStorage.removeItem(key)
                     : localStorage.setItem(key, value)
             } else {
@@ -31,7 +32,10 @@ const storage = {
     }
 }
 
-type StorageState = [[boolean, string | null], (value: string | null) => void];
+type StorageState = [
+    [boolean, string | null], // current state
+    (value: string | null) => void // function to update the state (void means function doesn't return anything)
+];
 
 export function useStorageState(key: string): StorageState {
     const [isLoading, setIsLoading] = useState(true);
